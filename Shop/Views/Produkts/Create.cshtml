@@ -1,0 +1,157 @@
+﻿@using System.Data.Entity.ModelConfiguration.Conventions
+@using System.Web.UI.WebControls
+@using Shop.Models
+@using Shop.ViewModel
+@model Shop.Models.Produkt
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+@{
+    ViewBag.Title = "Stwórz";
+         WebImage photo = null;
+         var newFileName = "";
+         var imagePath = "";
+
+         if (IsPost)
+         {
+             photo = WebImage.GetImageFromRequest();
+             if (photo!=null)
+             {
+                 newFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(photo.FileName);
+                 imagePath = @"images\" + newFileName;
+                 photo.Save(@"~\" + imagePath);
+             }
+            
+         }
+    
+}
+
+<h2>Utwórz nowy produkt</h2>
+
+
+@using (Html.BeginForm("Create","Produkts",FormMethod.Post,new {enctype="multipart/form-data"})) 
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <h4>Produkt</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.Nazwa, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Nazwa, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Nazwa, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Cena</label>
+        <div class="col-md-10">
+            <input type="text" name="cena" step="0.01" class="form-control"/>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Sztuk, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Sztuk, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Sztuk, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ProducentId, "Nazwa producenta", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("ProducentId", null, htmlAttributes: new { @class = "dropdown-item" })
+            @Html.ValidationMessageFor(model => model.ProducentId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    
+    
+    <div class="form-group">
+        <label class="control-label col-md-2">Kategorie</label>
+        <div class="col-md-offset-2 col-md-10">
+            <table>
+                <tr>
+                @{
+                    int cnt = 0;
+                    List<KategoriaVM> kategoria = ViewBag.Kat;
+
+                    foreach (var kat in kategoria)
+                    {
+                        
+                        if (kat.KatNazwa != "Głowna")
+                        {
+                            if (cnt++ % 6 == 0)
+                            {
+                                @:</tr><tr>
+                            }
+                            @:<td>
+                            
+                            <label class="btn btn-success " >
+                                <input  type="checkbox" name="selectedKat" value="@kat.KategoriaId"
+                                        @(Html.Raw(kat.Check ? "checked=\"checked\"" : ""))/>
+                                @kat.KatNazwa
+                            </label>
+                            
+                            @:</td>
+                             
+                        }
+                    }
+                    @:</tr>
+                }
+            </table>
+        </div>
+    </div>
+
+  
+
+
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.RokProdukcji, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model=>model.RokProdukcji,new{ @class = "form-control",type="date" })
+            @Html.ValidationMessageFor(model => model.RokProdukcji, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    
+    
+ 
+    
+    
+    <div class="form-group">
+   
+            @Html.LabelFor(model=>model.Obrazek, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="file" name="plik"/>
+            @Html.ValidationMessageFor(model=>model.Obrazek,"",new{@class="text-danger"})
+        </div>
+        
+    </div>
+
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Dodaj nowy produkt !" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Wróć do listy", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

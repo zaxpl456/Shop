@@ -1,0 +1,36 @@
+﻿@using System.Collections
+@using Shop.Models
+@model IEnumerable<Shop.Models.Kategoria>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gijgo@1.9.6/js/gijgo.min.js" type="text/javascript"></script>
+<link href="https://cdn.jsdelivr.net/npm/gijgo@1.9.6/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Kategorie.css" type="text/css" rel="stylesheet" />
+<h2>Kategorie</h2>
+
+
+<div id="container">
+    @DisplayTree(Model.Where(e => e.ParentId == 1008).OrderBy(e => e.Id))
+    @helper DisplayTree(IEnumerable<Shop.Models.Kategoria> elements)
+    {
+        <ul class="tree">
+            @foreach (var kat in elements)
+            {
+                <li>
+                    @Html.ActionLink(kat.Nazwa, "Index", "Produkts", new { kat = kat.Id, sortOrder = HttpContext.Current.Request.QueryString.Get("sortOrder")}, null)
+                    @{
+                        var children = Model.Where(k => k.Parent == kat).OrderBy(e => e.Id);
+                        if (children.Count() > 0)
+                        {
+                            @DisplayTree(children)
+                        }
+                    }
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+
+
+
+

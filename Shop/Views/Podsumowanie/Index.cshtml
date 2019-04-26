@@ -1,0 +1,139 @@
+﻿<link href="~/Content/doPodsum.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<h3>
+    Podsumowanie zamówienia
+    @if (Request.QueryString["kom"]!=null){
+        if (Request.QueryString["kom"].Equals("1"))
+    {
+        <script>
+            alert("Nie wybrano adresu")
+        </script>
+    }
+    if (Request.QueryString["kom"].Equals("2"))
+    {
+        <script>
+            alert("Nie wybrano dostawy")
+        </script>
+    }
+    }
+
+</h3>
+
+<div id="update-message">
+</div>
+<table class="table">
+    <tr>
+        <th>
+            Zdjęcie
+        </th>
+        <th>
+            Nazwa produktu
+        </th>
+        <th>
+            Cena
+        </th>
+        <th>
+            Liczba sztuk
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.CartItems)
+    {
+        <tr id="row-@item.ItemId">
+
+            <td>
+                <img src="~/Obrazki/@item.Produkt.Obrazek" class="img-circle" alt="" height="100px" width="100px" />
+            </td>
+
+            <td>
+                @item.Produkt.Nazwa
+
+            </td>
+            <td>
+                @item.Produkt.Cena
+            </td>
+            <td id="item-count-@item.ItemId">
+                @item.Count
+            </td>
+
+
+
+        </tr>
+    }
+</table>
+<br/>
+<br/>
+<table class="table">
+  
+    @using (Html.BeginForm())
+    {
+        <tr>
+            <th>
+                Wybierz adres do wysyłki
+
+
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <div class="btn-group btn-group-lg" data-toggle="buttons">
+                    @foreach (var adres in ViewBag.Adres)
+                    {
+
+                        <label class="btn btn-info btn-group-lg" style="font-size: 10px">
+                            <input id="adres" type="radio" name="Adres" value=@adres.AdresId autocomplete="off"/>@adres.Miasto @adres.Ulica @adres.Numer
+                        </label>
+
+                    }
+                </div>
+
+
+
+
+                @Html.ActionLink("Dodaj nowy adres", "Index", "Adres")
+
+
+
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Wybierz opcję dostawy
+            </th>
+
+
+
+        </tr>
+        <tr>
+            <th>
+                <div class="btn-group btn-group-lg" data-toggle="buttons">
+
+                    @foreach (var adres in ViewBag.Dostawa)
+                    {
+                      
+                        <label class="btn btn-success btn-group-lg" style="font-size: 10px">
+                            <input type="radio" name="Dostawa" value=@adres.DostawaId autocomplete="off"/>@adres.Nazwa - @adres.Cena zł
+                        </label>
+                    }
+                </div>
+            </th>
+        </tr>
+
+        <th>
+            <input id="potwierdz" class="btn btn-warning" type="submit" value="Powtierdź zamówienie"/>
+        </th>
+
+    }
+
+
+</table>
+
+

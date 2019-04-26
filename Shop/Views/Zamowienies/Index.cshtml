@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Shop.Models.Zamowienie>
+
+@{
+    ViewBag.Title = "Zamówienia";
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<h2>Zamówienia</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+           Id zamówienia
+        </th>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.Profil.NazwaUzytkownika)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stan)
+        </th>
+        <th>
+            Data zamówienia
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Koszt)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ZamowienieId)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Profil.NazwaUzytkownika)
+            </td>
+            <td>
+                @if (item.Stan == 0)
+                {
+                    <p>  zamówienie przyjęte</p>
+                }
+                @if (item.Stan == 1)
+                {
+                    <p>  w trakcie realizacji</p>
+                }
+                @if (item.Stan == 2)
+                {
+                    <p> zrealizowano</p>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Koszt)
+            </td>
+            <td>
+                @Html.ActionLink("Edycja", "Edit", new { id = item.ZamowienieId }) |
+                @Html.ActionLink("Szczegóły", "Details", new { id = item.ZamowienieId }) 
+                
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,35 @@
+﻿@model IdentitySample.Models.IndexViewModel
+@{
+    ViewBag.Title = "Zarządzaj swoim kontem";
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<h2>@ViewBag.Title.</h2>
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div class="row">
+    <div class="col-md-8">
+        <p>
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink("Zmień swoje hasło", "ChangePassword")
+            }
+            else
+            {
+                @Html.ActionLink("Ustaw hasło", "SetPassword")
+            }
+        </p>
+        
+        <p>
+
+            @Html.ActionLink("Zarządzaj adresami", "Index", "Adres")
+        </p>
+        
+        <p>
+            @Html.ActionLink("Przeglądaj twoje zamówienia","UserZamowienies","Zamowienies")
+
+        </p>
+
+
+    </div>
+</div>

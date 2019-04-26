@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Sklep</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+
+
+
+
+
+
+            
+            
+           
+<nav class="navbar navbar-expand-lg navbar-light bg-warning">
+    <a class="navbar-brand" >Best szop</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <li>@Html.ActionLink(" Strona główna ", "Index", "Home", new object { }, new { @class = "nav-link glyphicon glyphicon-home" })</li>
+
+            </li>
+            <li class="nav-item active">
+                <li> </li>
+                <li>@Html.ActionLink(" Produkty ", "Index", "Produkts", new object {}, new {@class = "nav-link glyphicon glyphicon-lock"})</li>
+
+            </li>
+            
+
+        </ul>
+        
+        @Html.Partial("_LoginPartial")
+
+       
+    </div>
+</nav>
+  
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <div class="footer">
+            <p>&copy; @DateTime.Now.Year - Adrian Laszczka | @Html.ActionLink("Kontakt ", "Contact", "Home") | @Html.ActionLink("O sklepie ", "About", "Home")</p>
+
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

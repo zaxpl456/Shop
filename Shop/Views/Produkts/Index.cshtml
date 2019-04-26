@@ -1,0 +1,171 @@
+﻿@model PagedList.IPagedList<Shop.Models.Produkt>
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+@{
+    ViewBag.Title = "Produkty";
+}
+
+
+<div class="col-md-2">
+    @{Html.RenderAction("KategoriaMenu", "Produkts");}
+</div>
+<div class="col-md-10">
+    <br/>
+    <br/>
+    @using (Html.BeginForm("Index", "Produkts", FormMethod.Get,new { @id = "custom-search-form", @class="form-horizontal pull-left" }))
+    {
+    <p>
+
+
+        <div class="form-inline">
+           
+            <input type="text" id="Search" name="SearchString" value="@ViewBag.CurrentFilter" class="form-control">
+                <button type="submit" class="btn btn-info"><i class="glyphicon glyphicon-search"></i>Wyszukaj</button>
+            
+        </div>
+
+
+
+
+
+    </p>
+    }
+    <table class="table">
+        <tr>
+            <th>
+                Zdjęcie
+            </th>
+
+            <th>
+                @Html.ActionLink("Nazwa", "Index", new {sortOrder = ViewBag.NameSortParam, currentFilter = ViewBag.CurrentFilter,kat= HttpContext.Current.Request.QueryString.Get("kat") })
+            </th>
+            <th>
+                @Html.ActionLink("Cena", "Index", new {sortOrder = ViewBag.PriceSortParam, currentFilter = ViewBag.CurrentFilter,kat = HttpContext.Current.Request.QueryString.Get("kat")})
+            </th>
+            <th>
+                Liczba sztuk
+                
+            </th>
+            
+            <th>
+                Akcje
+            </th>
+
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            if (item.Sztuk > 0 || User.IsInRole("Admin"))
+            {
+                <tr class="Search">
+                    <td>
+                        <img src="~/Obrazki/@item.Obrazek" class="img-circle" alt="" height="100px" width="100px"/>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nazwa)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cena)
+                    </td>
+
+                    <td>
+                    <div class="input-group number-spinner">
+                        <span class="input-group-btn data-dwn">
+                            <button class="btn btn-default btn-info" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
+                        </span>
+                        <input type="text" id="sztuk" class="form-control text-center" value="1" min="1" max="@item.Sztuk">
+                        <span class="input-group-btn data-up">
+                            <button class="btn btn-default btn-info" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
+                        </span>
+                    </div>
+
+                    <td>
+                        @if (Context.User.IsInRole("Admin"))
+                        {
+                            @Html.ActionLink("Edytuj", "Edit", new {id = item.ProduktId}, new {@class = "btn btn-primary"})
+                            @Html.ActionLink("Usuń", "Delete", new {id = item.ProduktId}, new {@class = "btn btn-primary"})
+
+                            <br/>
+
+
+                        }
+
+                        @Html.ActionLink("Szczegóły produktu", "Details", new {id = item.ProduktId}, new {@class = "btn btn-warning"})
+
+                        @Html.ActionLink("Dodaj do koszyka", "AddToCart", "ShoppingCart", new {id = item.ProduktId, sztuk = "xxx"}, new {@class = "link btn btn-success"})
+
+
+
+                    </td>
+                </tr>
+            }
+        }
+
+    </table>
+</div>
+<br />
+
+@if (Context.User.IsInRole("Admin"))
+{
+    <p align="center">
+        @Html.ActionLink("Utwórz nowy", "Create", null, new { @class = "btn btn-primary" })
+    </p>
+}
+<div align="center">
+    Strona @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) z @Model.PageCount
+ 
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</div>
+
+
+
+<script>
+ 
+
+    $(function () {
+        $('.link').click(function () {
+            var v = $("#sztuk").val();
+            this.href = this.href.replace("xxx",v);
+        });
+    });
+    $(function() {
+        var action;
+        $(".number-spinner button").mousedown(function () {
+            btn = $(this);
+            input = btn.closest('.number-spinner').find('input');
+            btn.closest('.number-spinner').find('button').prop("disabled", false);
+
+            if (btn.attr('data-dir') == 'up') {
+                action = setInterval(function(){
+                    if ( input.attr('max') == undefined || parseInt(input.val()) < parseInt(input.attr('max')) ) {
+                        input.val(parseInt(input.val())+1);
+                    }else{
+                        btn.prop("disabled", true);
+                        clearInterval(action);
+                    }
+                }, 50);
+            } else {
+                action = setInterval(function(){
+                    if ( input.attr('min') == undefined || parseInt(input.val()) > parseInt(input.attr('min')) ) {
+                        input.val(parseInt(input.val())-1);
+                    }else{
+                        btn.prop("disabled", true);
+                        clearInterval(action);
+                    }
+                }, 50);
+            }
+        }).mouseup(function(){
+            clearInterval(action);
+        });
+    });
+</script>

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Shop.ViewModel.EnrollmentDateGroup>
+
+@{
+    ViewBag.Title = "O sklepie";
+}
+
+<hgroup>
+    <h2>@ViewBag.Title.</h2>
+</hgroup>
+<div class="row-fluid">
+    <div class="span12">
+        <p>Sklep został wykonany na potrzeby przedmiotu PZ.</p>
+    </div>
+</div>
+<h2>Statystyka</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Data
+        </th>
+        <th>
+           Liczba produktów dodanych 
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnrollmentDate)
+            </td>
+            <td>
+                @item.ProductCount
+            </td>
+        </tr>
+    }
+</table>

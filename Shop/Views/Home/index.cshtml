@@ -1,0 +1,283 @@
+﻿@model List<Shop.Models.Produkt>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+@if (Model.Count > 0)
+{
+    <div class="container">
+        <h2 align="center">Witaj w najlepszym sklepie</h2>
+        <div id="myCarousel" class="carousel slide" data-ride="carousel" style="width: 400px; margin: 0 auto">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+                @{
+                    var r = new Random();
+                    var randomNumberLestThanProdukts = r.Next(Model.Count);
+                }
+
+
+                <div class="item active">
+                    <a href="Produkts/Details/@Model.ElementAt(randomNumberLestThanProdukts).ProduktId">
+                        <img src="/Obrazki/@Model.ElementAt(randomNumberLestThanProdukts).Obrazek" alt="Produkt" style="width: 100%; height: 50%">
+                        <div class="carousel-caption">
+                            <h3>@Model.ElementAt(randomNumberLestThanProdukts).Nazwa</h3>
+                            <p>@Model.ElementAt(randomNumberLestThanProdukts).Cena zł</p>
+                        </div>
+                    </a>
+                </div>
+
+                @{
+
+                    randomNumberLestThanProdukts = r.Next(Model.Count);
+                }
+
+                <div class="item">
+                    <a href="Produkts/Details/@Model.ElementAt(randomNumberLestThanProdukts).ProduktId">
+                        <img src="/Obrazki/@Model.ElementAt(randomNumberLestThanProdukts).Obrazek" alt="Produkt" style="width: 100%; height: 50px">
+                        <div class="carousel-caption">
+                            <h3>@Model.ElementAt(randomNumberLestThanProdukts).Nazwa</h3>
+                            <p>@Model.ElementAt(randomNumberLestThanProdukts).Cena zł</p>
+                        </div>
+                    </a>
+                </div>
+
+                @{
+
+                    randomNumberLestThanProdukts = r.Next(Model.Count);
+                }
+
+
+                <div class="item">
+                    <a href="Produkts/Details/@Model.ElementAt(randomNumberLestThanProdukts).ProduktId">
+                        <img src="/Obrazki/@Model.ElementAt(randomNumberLestThanProdukts).Obrazek" alt="Produkt" style="width: 100%; height: 50%">
+                        <div class="carousel-caption">
+                            <h3>@Model.ElementAt(randomNumberLestThanProdukts).Nazwa</h3>
+                            <p>@Model.ElementAt(randomNumberLestThanProdukts).Cena zł</p>
+                        </div>
+                    </a>
+                </div>
+
+
+            </div>
+
+            <!-- Left and right controls -->
+            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+
+    <br/>
+    <br/>
+
+    <h2>Kup już dziś !</h2>
+
+    <div class="card-group">
+        @{
+
+            randomNumberLestThanProdukts = r.Next(Model.Count);
+        }
+
+
+        <div class="card">
+            <div id="obrazek">
+                <img class="card-img-top" src="/Obrazki/@Model.ElementAt(randomNumberLestThanProdukts).Obrazek" alt="Card image cap">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.ElementAt(randomNumberLestThanProdukts).Nazwa</h5>
+                <p class="card-text">Cena za sztukę : @Model.ElementAt(randomNumberLestThanProdukts).Cena zł</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted" align="center">
+                    @Html.ActionLink("Szczegóły produktu", "Details", "Produkts", new {id = @Model.ElementAt(randomNumberLestThanProdukts).ProduktId}, new {@class = "btn btn-warning"})
+                </small>
+            </div>
+        </div>
+
+
+        @{
+
+            randomNumberLestThanProdukts = r.Next(Model.Count);
+        }
+
+
+        <div class="card">
+            <div id="obrazek">
+                <img class="card-img-top" src="/Obrazki/@Model.ElementAt(randomNumberLestThanProdukts).Obrazek" alt="Card image cap">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.ElementAt(randomNumberLestThanProdukts).Nazwa</h5>
+                <p class="card-text">Cena za sztukę : @Model.ElementAt(randomNumberLestThanProdukts).Cena zł</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted" align="center">
+                    @Html.ActionLink("Szczegóły produktu", "Details", "Produkts", new {id = @Model.ElementAt(randomNumberLestThanProdukts).ProduktId}, new {@class = "btn btn-warning"})
+                </small>
+            </div>
+        </div>
+
+
+
+        @{
+
+            randomNumberLestThanProdukts = r.Next(Model.Count);
+        }
+
+
+        <div class="card">
+            <div id="obrazek">
+                <img class="card-img-top" src="/Obrazki/@Model.ElementAt(randomNumberLestThanProdukts).Obrazek" alt="Card image cap">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.ElementAt(randomNumberLestThanProdukts).Nazwa</h5>
+                <p class="card-text">Cena za sztukę : @Model.ElementAt(randomNumberLestThanProdukts).Cena zł</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted" align="center">
+                    @Html.ActionLink("Szczegóły produktu", "Details", "Produkts", new {id = @Model.ElementAt(randomNumberLestThanProdukts).ProduktId}, new {@class = "btn btn-warning"})
+                </small>
+            </div>
+        </div>
+
+
+
+
+        @{
+
+            randomNumberLestThanProdukts = r.Next(Model.Count);
+        }
+
+
+        <div class="card">
+            <div id="obrazek">
+                <img class="card-img-top" src="/Obrazki/@Model.ElementAt(randomNumberLestThanProdukts).Obrazek" alt="Card image cap">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.ElementAt(randomNumberLestThanProdukts).Nazwa</h5>
+                <p class="card-text">Cena za sztukę : @Model.ElementAt(randomNumberLestThanProdukts).Cena zł</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted" align="center">
+                    @Html.ActionLink("Szczegóły produktu", "Details", "Produkts", new {id = @Model.ElementAt(randomNumberLestThanProdukts).ProduktId}, new {@class = "btn btn-warning"})
+                </small>
+            </div>
+        </div>
+
+
+
+
+
+
+
+    </div>
+
+            }
+else
+{
+    <h1>Brak elementów !</h1>
+}
+
+</body>
+            
+</html>
+
+<style>
+    #obrazek {
+        height: 200px;
+        width: auto;
+    }
+   
+    .carousel-inner{
+        height: 400px;
+        
+    }
+
+    .item, img{
+        height: 100% !important;
+        width:  100% !important;
+        border: 1px solid blanchedalmond;
+    }
+
+
+    
+    .carousel-control.left
+    {
+        background: none;
+    }
+    .carousel-control.right
+    {
+        background: none;
+    }
+
+    .carousel-control
+    {
+        position: absolute;
+        top: 45%;
+        bottom: 0;
+        left: 0;
+        width: 15%;
+        font-size: auto;
+        color: #fff;
+        text-align: center;
+        opacity: 1;
+        text-shadow: none;
+    }
+    .carousel-control:hover
+    {
+        color: #000;
+    }
+    .carousel-indicators
+    {
+        bottom: -50px;
+    }
+    .carousel-indicators li
+    {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin: 1px;
+        text-indent: -999px;
+        cursor: pointer;
+        background-color: #000\9;
+        background-color: rgba(0,0,0,0);
+        border: 1px solid #16a085;
+        border-radius: 50%;
+    }
+    .carousel-indicators .active
+    {
+        width: 12px;
+        height: 12px;
+        margin: 0;
+        background-color: #16a085;
+    }
+    .carousel-caption
+    {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 10;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        color: #fff;
+        text-align: center;
+        background: rgba(0,0,0,0.4);
+    }
+</style>
+

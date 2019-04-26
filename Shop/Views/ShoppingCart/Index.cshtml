@@ -1,0 +1,117 @@
+﻿@using iTextSharp.text
+@model Shop.ViewModel.ShoppingCartViewModel
+@{
+    ViewBag.Title = "Koszyk";
+}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        if (@Model.CartItems.Count > 0) {
+            $('#zamowienieId').show();
+
+        } else {
+            $('#zamowienieId').hide();
+
+        }
+
+        $(".RemoveLink").click(function () {
+
+            var recordToDelete = $(this).attr("data-id");
+            if (recordToDelete != '') {
+
+                $.post("/ShoppingCart/RemoveFromCart", { "id": recordToDelete },
+                    function (data) {
+
+
+                        if (data.ItemCount == 0) {
+                            $('#row-' + data.DeleteId).fadeOut('slow');
+                        } else {
+                            $('#item-count-' + data.DeleteId).text(data.ItemCount);
+                        }
+                        $('#cart-total').text(data.CartTotal);
+
+
+
+                        $('#update-message').text(data.Message);
+                        $('#cart-status').text('Koszyk (' + data.CartCount + ')');
+                        if (data.CartTotal > 0) {
+                            $('#zamowienieId').show();
+                        } else {
+                            $('#zamowienieId').hide();
+
+                        }
+
+                    });
+            }
+        });
+    });
+</script>
+<h3>
+    Twój koszyk
+</h3>
+
+<div id="update-message">
+</div>
+<table class="table">
+    <tr>
+        <th>
+            Zdjęcie
+        </th>
+        <th>
+            Nazwa produktu
+        </th>
+        <th>
+            Cena
+        </th>
+        <th>
+            Liczba sztuk
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in
+        Model.CartItems)
+    {
+        <tr id="row-@item.ItemId">
+
+            <td>
+                <img src="~/Obrazki/@item.Produkt.Obrazek" class="img-circle" alt="" height="100px" width="100px" />
+            </td>
+
+            <td>
+                @Html.ActionLink(item.Produkt.Nazwa, "Details", "Produkts", new { id = item.ProduktId }, null)
+            </td>
+            <td>
+                @item.Produkt.Cena
+            </td>
+            <td id="item-count-@item.ItemId">
+                @item.Count
+            </td>
+
+
+            <td>
+                <a href="#" class="RemoveLink"
+                   data-id="@item.ItemId">
+                    <button id="but1" class="btn btn-danger">Usuń</button>
+                </a>
+            </td>
+        </tr>
+    }
+    <tr>
+        <td>
+            Cena całkowita
+        </td>
+        <td></td>
+        <td></td>
+        <td id="cart-total">
+            @Model.CartTotal
+        </td>
+    </tr>
+</table>
+
+
+@Html.ActionLink("Złóż zamówienie ", "Index", "Podsumowanie", new object { }, new { @class = "btn btn-success", id = "zamowienieId" })
+

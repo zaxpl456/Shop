@@ -1,0 +1,139 @@
+﻿@using System.Web.UI.WebControls
+@model Shop.Models.Zamowienie
+
+@{
+    ViewBag.Title = "Details";
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<h2>Szczegóły</h2>
+
+<div>
+    <h4>Zamowienie</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Adres
+        </dt>
+
+        <dd>
+            
+            @Model.Adres.Ulica
+            @Model.Adres.Numer,
+            @Model.Adres.KodPocztowy
+            @Model.Adres.Miasto
+
+
+
+        </dd>
+
+        <dt>
+           Opcja dostawy
+        </dt>
+
+        <dd>
+           @Model.Dostawa.Nazwa
+        </dd>
+
+        <dt>
+            Nazwa użytkownika
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Profil.NazwaUzytkownika)
+        </dd>
+
+        <dt>
+            Stan zamówienia
+        </dt>
+
+        <dd>
+            @if (Model.Stan == 0)
+            {
+                <p>  zamówienie przyjęte</p>
+            }
+            @if (Model.Stan == 1)
+            {
+                <p>  w trakcie realizacji</p>
+            }
+            @if (Model.Stan == 2)
+            {
+                <p> zrealizowano</p>
+            }
+        </dd>
+
+        <dt>
+            Data złożenia
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Koszt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Koszt) zł
+        </dd>
+        <dt>
+            Zamówione produkty
+        </dt>
+        <br />
+        <br />
+        <table class="table">
+            <tr>
+                <th>
+                    Zdjęcie
+                </th>
+                <th>
+                    Nazwa produktu
+                </th>
+                <th>
+                    Cena
+                </th>
+                <th>
+                    Liczba sztuk
+                </th>
+                <th></th>
+            </tr>
+            @foreach (var item in
+                Model.Produkty)
+            {
+                <tr id="row-@item.ProduktId">
+
+                    <td>
+                        <img src="~/Obrazki/@item.Obrazek" class="img-circle" alt="" height="100px" width="100px" />
+                    </td>
+
+                    <td>
+                        @Html.ActionLink(item.Nazwa, "Details", "Produkts", new { id = item.ProduktId }, null)
+                    </td>
+                    <td>
+                        @item.Cena
+                    </td>
+                    <td>
+                        @Model.Sztuki.Single(p=>p.ProduktId==item.ProduktId).LiczbaSztuk
+                    </td>
+
+
+                    
+                </tr>
+            }
+            <tr>
+                
+            
+        </table>
+    </dl>
+</div>
+<p>
+    
+        @if (Context.User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Edycja", "Edit", new { id = Model.ZamowienieId })
+
+}
+        @Html.ActionLink("Wróć do listy", "Index")
+</p>

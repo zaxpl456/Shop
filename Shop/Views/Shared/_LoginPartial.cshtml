@@ -1,0 +1,52 @@
+﻿@using Microsoft.AspNet.Identity
+
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+        @if (Context.User.IsInRole("Admin"))
+        {
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Admin Panel
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    @Html.ActionLink("Kategorie", "Index", "Kategorias", new object { }, new { @class = "dropdown-item" })
+                    @Html.ActionLink("Producenci", "Index", "Producents", new object { }, new { @class = "dropdown-item" })
+                    @Html.ActionLink("Zamówienia", "Index", "Zamowienies", new object { }, new { @class = "dropdown-item" })
+                    @Html.ActionLink("Dostawa", "Index", "Dostawas", new object { }, new { @class = "dropdown-item" })
+                    @Html.ActionLink("Statystyki", "About", "Home", new object { }, new { @class = "dropdown-item" })
+
+
+</li>
+        }
+            <li class="nav-item active">
+                @{Html.RenderAction("CartSummary", "ShoppingCart");}
+            </li>
+
+
+            <li>
+                @Html.ActionLink(" Witaj " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new {title = "Manage", @class = "glyphicon glyphicon-user"})
+            </li>
+            <li><a class="glyphicon glyphicon-log-out" href="javascript:document.getElementById('logoutForm').submit()"> Wyloguj</a></li>
+
+
+        </ul>
+
+
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@{Html.RenderAction("CartSummary", "ShoppingCart");}</li>
+
+
+        <li>@Html.ActionLink(" Zarejestruj się", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "glyphicon glyphicon-user" })</li>
+        <li>@Html.ActionLink(" Zaloguj", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "glyphicon glyphicon-log-in" })</li>
+    </ul>
+}
